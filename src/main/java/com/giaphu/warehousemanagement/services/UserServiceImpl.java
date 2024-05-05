@@ -40,4 +40,18 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 
+	@Override
+	public User deleteUser(int id) {
+		User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+		userRepository.deleteById(id);
+		return user;
+	}
+
+	@Override
+	public User updateUser(int id, UserDTO user) {
+		User foundUser = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+		mapper.map(user, foundUser);
+		return userRepository.save(foundUser);
+	}
+
 }
